@@ -21,6 +21,9 @@ function Solution() {
 
   const [timerId, setTimerId] = useState(null)
   const [timerIsRunning, setTimerIsRunning] = useState(false)
+  /* const [start, setStart] = useState(false)
+  const [, setPause] = useState(false)
+  const [stop, setStop] = useState(false) */
 
   const countDown = () => {
     setTime(time => {
@@ -33,6 +36,8 @@ function Solution() {
     if (time === 0) {
       clearInterval(timerId)
       setTimerId(null)
+      //setStart(false)
+      //setStop(true)
       setTimerIsRunning(false)
       setTime(0)
       return
@@ -71,16 +76,22 @@ function Solution() {
       resetTimer()
       setTimerId(setTimer())
     } else {
+      //if (start && !stop) return
       if (timerIsRunning) return
       if (minutes === 0 && seconds === 0) resetTimer()
       if (timerId) setTimerId(setTimer())
     }
 
+    /* setStart(true)
+    setStop(false)
+    setPause(false) */
     setTimerIsRunning(true)
   }
 
   const pauseTimer = () => {
     if (!time) return
+    /* if (!stop) stopTimer()
+    if (!start) startTimer('pause') */
     if (timerIsRunning) stopTimer()
     if (!timerIsRunning) startTimer()
   }
@@ -93,6 +104,7 @@ function Solution() {
 
     setMinutes(config.minutes)
     setSeconds(config.seconds)
+    //setStart(false)
 
     return
   }
@@ -100,15 +112,20 @@ function Solution() {
   const stopTimer = () => {
     if (timerId) clearInterval(timerId)
 
+    /* setStop(true)
+    setStart(false)
+    setPause(true) */
     setTimerIsRunning(false)
   }
 
   const handleMinutesChange = minutes => {
     setConfig({ ...config, minutes: Number(minutes) })
+    //setStart(false)
   }
 
   const handleSecondsChange = seconds => {
     setConfig({ ...config, seconds: Number(seconds) })
+    //setStart(false)
   }
 
   return (

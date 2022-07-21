@@ -12,7 +12,7 @@ const twoDigits = number => {
 }
 
 function Solution() {
-  const [config, setConfig] = useState({ minutes: 1, seconds: 30 })
+  const [config, setConfig] = useState({ minutes: 0, seconds: 0 })
   const [configHistory, setConfigHistory] = useState([])
 
   const [time, setTime] = useState(null)
