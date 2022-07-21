@@ -32,9 +32,11 @@ function Solution() {
       return null
     })
 
+    console.log('time:', time, 'newTimerId:', newTimerId, 'timerId:', timerId)
+
     if (!time) {
-      clearInterval(newTimerId)
-      timerHistory.forEach(i => clearInterval(i))
+      clearInterval(timerId)
+      console.log('clear interval')
       setTimerId(null)
       setTimerIsRunning(false)
       setTime(0)
@@ -43,7 +45,7 @@ function Solution() {
   }
 
   const setTimer = () => {
-    let newTimerId = setInterval(() => countDown(newTimerId), 100)
+    let newTimerId = setInterval(countDown, 100)
     setTimerHistory([...timerHistory, newTimerId])
     setConfigHistory([...configHistory, config])
     return newTimerId
@@ -52,6 +54,7 @@ function Solution() {
   useEffect(() => {
     const newTime = config.minutes * 60 + config.seconds
     setTime(newTime)
+    //setTimerId(setTimer())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -62,6 +65,9 @@ function Solution() {
     if (minutes === 0 && seconds === 0) {
       if (timerId) stopTimer()
     }
+    /* if (time === 0) {
+      if (!timerId) stopTimer()
+    } */
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time])
 
@@ -71,11 +77,15 @@ function Solution() {
 
   const startTimer = () => {
     if (differentValues()) {
+      //console.log('different values')
       resetTimer()
       setTimerId(setTimer())
     } else {
+      //console.log('else')
       if (timerIsRunning) return
+      //if (!time) resetTimer()
       if (minutes === 0 && seconds === 0) resetTimer()
+      //if (timerId) setTimerId(setTimer())
       setTimerId(setTimer())
     }
 
@@ -90,6 +100,7 @@ function Solution() {
 
   const resetTimer = () => {
     stopTimer()
+    //console.log(config)
     const newTime = config.minutes * 60 + config.seconds
     setTime(newTime)
 
@@ -100,6 +111,7 @@ function Solution() {
   }
 
   const stopTimer = () => {
+    //if (timerId) clearInterval(timerId)
     clearInterval(timerId)
     console.log('clear interval')
 

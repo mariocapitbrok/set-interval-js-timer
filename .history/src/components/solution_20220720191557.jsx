@@ -20,21 +20,18 @@ function Solution() {
   const [seconds, setSeconds] = useState(0)
 
   const [timerId, setTimerId] = useState(null)
-  const [timerHistory, setTimerHistory] = useState([])
   const [timerIsRunning, setTimerIsRunning] = useState(false)
 
-  const countDown = newTimerId => {
+  const countDown = () => {
     setTime(time => {
       while (time > 0) {
         return time - 1
       }
-
       return null
     })
 
-    if (!time) {
-      clearInterval(newTimerId)
-      timerHistory.forEach(i => clearInterval(i))
+    if (time === 0) {
+      clearInterval(timerId)
       setTimerId(null)
       setTimerIsRunning(false)
       setTime(0)
@@ -43,8 +40,7 @@ function Solution() {
   }
 
   const setTimer = () => {
-    let newTimerId = setInterval(() => countDown(newTimerId), 100)
-    setTimerHistory([...timerHistory, newTimerId])
+    const newTimerId = setInterval(countDown, 100)
     setConfigHistory([...configHistory, config])
     return newTimerId
   }
@@ -52,6 +48,7 @@ function Solution() {
   useEffect(() => {
     const newTime = config.minutes * 60 + config.seconds
     setTime(newTime)
+    setTimerId(setTimer())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -69,14 +66,14 @@ function Solution() {
     return config !== configHistory[configHistory.length - 1]
   }
 
-  const startTimer = () => {
+  const startTimer = origin => {
     if (differentValues()) {
       resetTimer()
       setTimerId(setTimer())
     } else {
       if (timerIsRunning) return
       if (minutes === 0 && seconds === 0) resetTimer()
-      setTimerId(setTimer())
+      if (timerId) setTimerId(setTimer())
     }
 
     setTimerIsRunning(true)
@@ -90,6 +87,7 @@ function Solution() {
 
   const resetTimer = () => {
     stopTimer()
+
     const newTime = config.minutes * 60 + config.seconds
     setTime(newTime)
 
@@ -100,8 +98,7 @@ function Solution() {
   }
 
   const stopTimer = () => {
-    clearInterval(timerId)
-    console.log('clear interval')
+    if (timerId) clearInterval(timerId)
 
     setTimerIsRunning(false)
   }
