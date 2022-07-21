@@ -102,10 +102,10 @@ function Solution() {
     return
   }
 
-  const stopTimer = () => {
+  const stopTimer = origin => {
     clearInterval(timerId)
 
-    setTimerIsRunning(false)
+    if (origin !== 'pause') setTimerIsRunning(false)
   }
 
   const handleMinutesChange = minutes => {

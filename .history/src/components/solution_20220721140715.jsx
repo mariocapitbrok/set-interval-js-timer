@@ -102,7 +102,7 @@ function Solution() {
     return
   }
 
-  const stopTimer = () => {
+  const stopTimer = origin => {
     clearInterval(timerId)
 
     setTimerIsRunning(false)

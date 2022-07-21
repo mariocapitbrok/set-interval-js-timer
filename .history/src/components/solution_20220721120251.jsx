@@ -25,6 +25,7 @@ function Solution() {
 
   const countDown = newTimerId => {
     if (!time) {
+      //console.log('timerId:', timerId, 'newTimerId:', newTimerId)
       clearInterval(newTimerId)
       timerHistory.forEach(i => clearInterval(i))
       setTimerId(null)
@@ -42,7 +43,7 @@ function Solution() {
   }
 
   const setTimer = () => {
-    const newTimerId = setInterval(() => countDown(newTimerId), 100)
+    const newTimerId = setInterval(() => countDown(newTimerId), 1000)
     setTimerId(newTimerId)
     setTimerHistory([...timerHistory, newTimerId])
     setConfigHistory([...configHistory, config])
@@ -71,29 +72,36 @@ function Solution() {
 
   const startTimer = origin => {
     if (!time) {
+      console.log('No time')
       resetTimer()
+      setTimer()
+      setTimerIsRunning(true)
+      console.log('timerId:', timerId)
       return
     }
     if (differentValues() && origin !== 'pause') {
+      console.log("differentValues() && origin !== 'pause'")
       resetTimer()
     } else {
       if (timerIsRunning) return
       if (origin !== 'pause') resetTimer()
     }
 
+    console.log('Set Timer and Timmer is Running')
     setTimerId(setTimer())
     setTimerIsRunning(true)
   }
 
   const pauseTimer = () => {
     if (!time) return
-    if (timerIsRunning) stopTimer('pause')
+    if (timerIsRunning) stopTimer()
     if (!timerIsRunning) startTimer('pause')
   }
 
   const resetTimer = () => {
     const newTime = config.minutes * 60 + config.seconds
     setTime(newTime)
+    console.log('timerIsRunning:', timerIsRunning)
     if (timerIsRunning) stopTimer()
 
     setMinutes(config.minutes)
@@ -104,6 +112,7 @@ function Solution() {
 
   const stopTimer = () => {
     clearInterval(timerId)
+    console.log('clear interval')
 
     setTimerIsRunning(false)
   }
@@ -137,9 +146,7 @@ function Solution() {
         Seconds
       </label>
 
-      <button onClick={startTimer} disabled={!time ? true : false}>
-        START
-      </button>
+      <button onClick={startTimer}>START</button>
       <button onClick={pauseTimer}>PAUSE / RESUME</button>
       <button onClick={resetTimer}>RESET</button>
 

@@ -87,7 +87,7 @@ function Solution() {
 
   const pauseTimer = () => {
     if (!time) return
-    if (timerIsRunning) stopTimer('pause')
+    if (timerIsRunning) stopTimer()
     if (!timerIsRunning) startTimer('pause')
   }
 
@@ -137,7 +137,10 @@ function Solution() {
         Seconds
       </label>
 
-      <button onClick={startTimer} disabled={!time ? true : false}>
+      <button
+        onClick={startTimer}
+        disabled={!time || (timerIsRunning && time) ? true : false}
+      >
         START
       </button>
       <button onClick={pauseTimer}>PAUSE / RESUME</button>

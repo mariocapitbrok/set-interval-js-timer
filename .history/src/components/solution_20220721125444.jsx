@@ -87,7 +87,7 @@ function Solution() {
 
   const pauseTimer = () => {
     if (!time) return
-    if (timerIsRunning) stopTimer('pause')
+    if (timerIsRunning) stopTimer()
     if (!timerIsRunning) startTimer('pause')
   }
 

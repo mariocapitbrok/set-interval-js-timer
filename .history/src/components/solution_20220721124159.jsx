@@ -22,6 +22,7 @@ function Solution() {
   const [timerId, setTimerId] = useState(null)
   const [timerHistory, setTimerHistory] = useState([])
   const [timerIsRunning, setTimerIsRunning] = useState(false)
+  const [pause, setPause] = useState(false)
 
   const countDown = newTimerId => {
     if (!time) {
@@ -87,8 +88,9 @@ function Solution() {
 
   const pauseTimer = () => {
     if (!time) return
-    if (timerIsRunning) stopTimer('pause')
+    if (timerIsRunning) stopTimer()
     if (!timerIsRunning) startTimer('pause')
+    setPause(!pause)
   }
 
   const resetTimer = () => {

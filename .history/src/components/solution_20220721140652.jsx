@@ -102,7 +102,7 @@ function Solution() {
     return
   }
 
-  const stopTimer = () => {
+  const stopTimer = origin => {
     clearInterval(timerId)
 
     setTimerIsRunning(false)
@@ -137,7 +137,16 @@ function Solution() {
         Seconds
       </label>
 
-      <button onClick={startTimer} disabled={!time ? true : false}>
+      <button
+        onClick={startTimer}
+        disabled={
+          !time ||
+          timerIsRunning ||
+          (!timerIsRunning && !differentValues() && !time)
+            ? true
+            : false
+        }
+      >
         START
       </button>
       <button onClick={pauseTimer}>PAUSE / RESUME</button>

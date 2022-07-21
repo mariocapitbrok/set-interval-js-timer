@@ -25,6 +25,7 @@ function Solution() {
 
   const countDown = newTimerId => {
     if (!time) {
+      console.log('timerId:', timerId, 'newTimerId:', newTimerId)
       clearInterval(newTimerId)
       timerHistory.forEach(i => clearInterval(i))
       setTimerId(null)
@@ -42,8 +43,7 @@ function Solution() {
   }
 
   const setTimer = () => {
-    const newTimerId = setInterval(() => countDown(newTimerId), 100)
-    setTimerId(newTimerId)
+    const newTimerId = setInterval(() => countDown(newTimerId), 1000)
     setTimerHistory([...timerHistory, newTimerId])
     setConfigHistory([...configHistory, config])
     return newTimerId
@@ -71,6 +71,7 @@ function Solution() {
 
   const startTimer = origin => {
     if (!time) {
+      console.log('No time')
       resetTimer()
       return
     }
@@ -87,7 +88,7 @@ function Solution() {
 
   const pauseTimer = () => {
     if (!time) return
-    if (timerIsRunning) stopTimer('pause')
+    if (timerIsRunning) stopTimer()
     if (!timerIsRunning) startTimer('pause')
   }
 
@@ -104,6 +105,7 @@ function Solution() {
 
   const stopTimer = () => {
     clearInterval(timerId)
+    console.log('clear interval')
 
     setTimerIsRunning(false)
   }
@@ -137,9 +139,7 @@ function Solution() {
         Seconds
       </label>
 
-      <button onClick={startTimer} disabled={!time ? true : false}>
-        START
-      </button>
+      <button onClick={startTimer}>START</button>
       <button onClick={pauseTimer}>PAUSE / RESUME</button>
       <button onClick={resetTimer}>RESET</button>
 

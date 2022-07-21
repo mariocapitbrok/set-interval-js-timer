@@ -24,26 +24,27 @@ function Solution() {
   const [timerIsRunning, setTimerIsRunning] = useState(false)
 
   const countDown = newTimerId => {
+    setTime(time => {
+      while (time > 0) {
+        return time - 1
+      }
+
+      return null
+    })
+
     if (!time) {
+      console.log('timerId:', timerId, 'newTimerId:', newTimerId)
       clearInterval(newTimerId)
       timerHistory.forEach(i => clearInterval(i))
       setTimerId(null)
       setTimerIsRunning(false)
       setTime(0)
       return
-    } else {
-      setTime(time => {
-        while (time > 0) {
-          return time - 1
-        }
-        return null
-      })
     }
   }
 
   const setTimer = () => {
-    const newTimerId = setInterval(() => countDown(newTimerId), 100)
-    setTimerId(newTimerId)
+    let newTimerId = setInterval(() => countDown(newTimerId), 1000)
     setTimerHistory([...timerHistory, newTimerId])
     setConfigHistory([...configHistory, config])
     return newTimerId
@@ -71,8 +72,9 @@ function Solution() {
 
   const startTimer = origin => {
     if (!time) {
+      console.log('No time')
       resetTimer()
-      return
+      //return
     }
     if (differentValues() && origin !== 'pause') {
       resetTimer()
@@ -87,7 +89,7 @@ function Solution() {
 
   const pauseTimer = () => {
     if (!time) return
-    if (timerIsRunning) stopTimer('pause')
+    if (timerIsRunning) stopTimer()
     if (!timerIsRunning) startTimer('pause')
   }
 
@@ -104,6 +106,7 @@ function Solution() {
 
   const stopTimer = () => {
     clearInterval(timerId)
+    console.log('clear interval')
 
     setTimerIsRunning(false)
   }
@@ -137,9 +140,7 @@ function Solution() {
         Seconds
       </label>
 
-      <button onClick={startTimer} disabled={!time ? true : false}>
-        START
-      </button>
+      <button onClick={startTimer}>START</button>
       <button onClick={pauseTimer}>PAUSE / RESUME</button>
       <button onClick={resetTimer}>RESET</button>
 
