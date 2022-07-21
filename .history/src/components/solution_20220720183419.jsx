@@ -21,7 +21,7 @@ function Solution() {
 
   const [timerId, setTimerId] = useState(null)
   const [start, setStart] = useState(false)
-  const [, setPause] = useState(false)
+  const [pause, setPause] = useState(false)
   const [stop, setStop] = useState(false)
 
   const countDown = () => {
@@ -70,9 +70,11 @@ function Solution() {
   }
 
   const startTimer = origin => {
+    console.log(differentValues() && !origin)
     if (differentValues()) {
       resetTimer()
       setTimerId(setTimer())
+      console.log('different values')
     } else {
       if (start && !stop) return
       if (minutes === 0 && seconds === 0) resetTimer()
@@ -85,6 +87,8 @@ function Solution() {
   }
 
   const pauseTimer = () => {
+    console.log('start:', start, 'stop:', stop, 'pause:', pause)
+
     if (!time) return
     if (!stop) stopTimer()
     if (!start) startTimer('pause')

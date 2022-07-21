@@ -21,7 +21,7 @@ function Solution() {
 
   const [timerId, setTimerId] = useState(null)
   const [start, setStart] = useState(false)
-  const [, setPause] = useState(false)
+  const [pause, setPause] = useState(false)
   const [stop, setStop] = useState(false)
 
   const countDown = () => {
@@ -69,10 +69,11 @@ function Solution() {
     return config !== configHistory[configHistory.length - 1]
   }
 
-  const startTimer = origin => {
+  const startTimer = () => {
     if (differentValues()) {
       resetTimer()
       setTimerId(setTimer())
+      console.log('different values')
     } else {
       if (start && !stop) return
       if (minutes === 0 && seconds === 0) resetTimer()
@@ -81,13 +82,16 @@ function Solution() {
 
     setStart(true)
     setStop(false)
-    setPause(false)
+    if (origin === 'pause') setPause(false)
   }
 
   const pauseTimer = () => {
     if (!time) return
     if (!stop) stopTimer()
-    if (!start) startTimer('pause')
+    if (!start) startTimer()
+
+    //setPause(!pause)
+    console.log('start:', start, 'stop:', stop, 'pause:', pause)
   }
 
   const resetTimer = () => {

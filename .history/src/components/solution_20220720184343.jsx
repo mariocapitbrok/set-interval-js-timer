@@ -21,7 +21,7 @@ function Solution() {
 
   const [timerId, setTimerId] = useState(null)
   const [start, setStart] = useState(false)
-  const [, setPause] = useState(false)
+  const [pause, setPause] = useState(false)
   const [stop, setStop] = useState(false)
 
   const countDown = () => {

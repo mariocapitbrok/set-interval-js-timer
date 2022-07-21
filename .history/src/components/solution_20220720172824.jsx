@@ -21,7 +21,7 @@ function Solution() {
 
   const [timerId, setTimerId] = useState(null)
   const [start, setStart] = useState(false)
-  const [, setPause] = useState(false)
+  const [pause, setPause] = useState(false)
   const [stop, setStop] = useState(false)
 
   const countDown = () => {
@@ -66,13 +66,15 @@ function Solution() {
   }, [time])
 
   const differentValues = () => {
+    console.log(configHistory)
     return config !== configHistory[configHistory.length - 1]
   }
 
-  const startTimer = origin => {
+  const startTimer = () => {
     if (differentValues()) {
       resetTimer()
       setTimerId(setTimer())
+      console.log('different values')
     } else {
       if (start && !stop) return
       if (minutes === 0 && seconds === 0) resetTimer()
@@ -81,13 +83,15 @@ function Solution() {
 
     setStart(true)
     setStop(false)
-    setPause(false)
+    console.log(configHistory)
   }
 
   const pauseTimer = () => {
     if (!time) return
     if (!stop) stopTimer()
-    if (!start) startTimer('pause')
+    if (!start) startTimer()
+
+    setPause(!pause)
   }
 
   const resetTimer = () => {
@@ -98,7 +102,6 @@ function Solution() {
 
     setMinutes(config.minutes)
     setSeconds(config.seconds)
-    setStart(false)
     return
   }
 
@@ -107,17 +110,14 @@ function Solution() {
 
     setStop(true)
     setStart(false)
-    setPause(true)
   }
 
   const handleMinutesChange = minutes => {
-    setConfig({ ...config, minutes: Number(minutes) })
-    setStart(false)
+    setConfig({ ...config, seconds: Number(minutes) })
   }
 
   const handleSecondsChange = seconds => {
     setConfig({ ...config, seconds: Number(seconds) })
-    setStart(false)
   }
 
   return (
@@ -125,7 +125,9 @@ function Solution() {
       <label>
         <input
           type="number"
-          onChange={({ target }) => handleMinutesChange(target.value)}
+          onChange={({ target }) =>
+            setConfig({ ...config, minutes: Number(target.value) })
+          }
           value={config.minutes}
         />
         Minutes
@@ -139,7 +141,9 @@ function Solution() {
         Seconds
       </label>
 
-      <button onClick={startTimer}>START</button>
+      <button onClick={startTimer} disabled={start ? true : false}>
+        START
+      </button>
       <button onClick={pauseTimer}>PAUSE / RESUME</button>
       <button onClick={resetTimer}>RESET</button>
 
